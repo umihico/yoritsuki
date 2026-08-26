@@ -261,6 +261,16 @@ h2 { font-size: clamp(24px, 3vw, 32px); color: var(--text-strong); font-weight: 
 .company-row dt { font-size: 13px; color: var(--muted); padding-top: 3px; }
 .company-row dd .main { font-size: 15.5px; color: var(--text-strong); }
 .company-row dd .sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.nowrap { white-space: nowrap; }
+/* 住所の明示マップリンク。OS自動リンクの派手な青ではなく、意図的で控えめな下線に */
+.addr-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--border-strong);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.2s;
+}
+.addr-link:hover { text-decoration-color: var(--accent); }
 
 /* ============ Public notice page ============ */
 .notice-main { padding: 168px 0 120px; min-height: 60vh; }
