@@ -71,9 +71,10 @@ const BOOT_SCRIPT = `
   var root = document.documentElement;
   root.classList.remove('no-js');
   try {
+    // 初期表示は常にダーク（OSのprefers-color-schemeは無視）。
+    // ユーザーがライトへ切り替えた場合のみlocalStorageに保存され、以後は永続的にその選択を尊重する。
     var t = localStorage.getItem('yoritsuki-theme');
-    if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-    root.setAttribute('data-theme', t);
+    if (t) root.setAttribute('data-theme', t);
     var l = localStorage.getItem('yoritsuki-lang');
     if (l) { root.setAttribute('data-lang', l); root.setAttribute('lang', l); }
   } catch (e) {}
