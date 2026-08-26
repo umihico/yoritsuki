@@ -13,6 +13,8 @@ export const metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: '/' },
+  // モバイルOSによる住所・電話・メールの自動リンクを抑止（住所はJSXで明示リンクのみ）
+  formatDetection: { telephone: false, date: false, address: false, email: false },
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
