@@ -1,0 +1,125 @@
+<!doctype html><meta charset="utf-8"><title>ヨリツキ OGP/アイコン グルーピング & サイズチェッカー</title>
+<style>
+ body{margin:0;background:#0b1020;color:#e8ecf5;font:13px/1.6 system-ui,-apple-system,"Hiragino Sans",sans-serif}
+ .wrap{padding:20px 24px;max-width:1200px}
+ h1{font-size:19px} h2{font-size:16px;margin-top:30px;border-left:4px solid #4ea1ff;padding-left:10px}
+ p.lead{color:#9fb0d0;max-width:960px}
+ table{border-collapse:collapse;margin-top:10px} td,th{border:1px solid #223;padding:8px;vertical-align:top;text-align:center}
+ .colh{background:#131a2e;color:#cfe;font-weight:600;font-size:12px;min-width:60px}
+ .colh .note{display:block;color:#8798b8;font-weight:400;font-size:10.5px;margin-top:3px}
+ .rowh{background:#131a2e;text-align:left;white-space:nowrap} .rowh .asp{color:#8798b8;font-size:11px}
+ .cellwrap{display:inline-block;line-height:0}
+ .cell{border:1px solid #2a3450;image-rendering:pixelated}
+ .grp{font-weight:700;color:#4ade80} .rem{color:#8798b8;text-align:left;font-size:12px}
+ .k{color:#ff5470;font-weight:700} .good{color:#4ade80} .bad{color:#ff5470}
+ .box{background:#131a2e;border:1px solid #2a3450;border-radius:8px;padding:14px 18px;margin:14px 0}
+ code{background:#0b1020;padding:1px 5px;border-radius:4px}
+ ul{max-width:960px}
+</style>
+<div class="wrap">
+<h1>ヨリツキ — OGP画像は「何種類作れて」「誰がどれを共有するか」</h1>
+
+<h2>結論:メタデータで“出し分けできる”ソーシャル画像は最大2枚だけ</h2>
+<div class="box">
+<p>OGPは <code>og:image</code> <b>1枚</b>が原則。<b>非Twitter系は全員この同じ1枚を読む</b>ので、
+「LINEには正方形、Facebookには横長」といった個別配信は<b>できない</b>。
+個別の枠を持つのは <b>X/Twitter だけ</b>(<code>twitter:image</code> + <code>twitter:card</code> で形を上書き可)。</p>
+<ul>
+<li><b class="grp">画像α = 横長 1200×630(1.91:1)</b> … <code>og:image</code>(=ほぼ全プラットフォーム) 兼 X(large)の <code>twitter:image</code>。<b>これ1枚で大半をカバー。</b> → <b>版4</b></li>
+<li><b class="grp">画像β = 正方形 1200×1200(1:1)</b> … <b>Xを summary(小)に変えた時の <code>twitter:image</code> 専用</b>。非X勢へは出し分け不可(og:imageを正方に差し替えると今度は全員が正方になる)。<b>通常は不要。</b> → 版2</li>
+<li><b>アイコン群(OGPとは別カテゴリ・各 <code>&lt;link&gt;</code> で個別指定)</b> … favicon 16/32/48・apple-touch 180・PWA 192/512。これらは1枚ずつ独立生成。 → 版2/版1</li>
+</ul>
+<p class="bad">※「正方形で切れる」問題の本質:切れる相手(X summary / LINE等)へ“だけ”別画像を配ることは標準OGPでは不可能。
+取れる手は (a) αを中央1:1安全域に収めて全員で共有 / (b) Xだけ summary+β で正方最適化、の二択。</p>
+</div>
+
+<h2>プラットフォーム別:誰がどのタグを読み、どの画像を共有するか</h2>
+<table>
+<tr><th>プラットフォーム</th><th>読むタグ</th><th>表示形</th><th>共有する画像</th><th>備考</th></tr>
+<tr><td style="text-align:left">Facebook / Messenger</td><td>og:image</td><td>横長 1.91:1</td><td class="grp">α</td><td class="rem"></td></tr><tr><td style="text-align:left">LinkedIn</td><td>og:image</td><td>横長 1.91:1</td><td class="grp">α</td><td class="rem"></td></tr><tr><td style="text-align:left">Slack / Discord</td><td>og:image</td><td>横長(展開)</td><td class="grp">α</td><td class="rem"></td></tr><tr><td style="text-align:left">はてなブックマーク</td><td>og:image</td><td>小さめ/一覧は正方寄り</td><td class="grp">α</td><td class="rem">一覧で中央クロップ気味</td></tr><tr><td style="text-align:left">LINE</td><td>og:image</td><td>カード横長/面により正方クロップ</td><td class="grp">α</td><td class="rem">切れるなら中央安全域が要る</td></tr><tr><td style="text-align:left">X / Twitter(現行=large)</td><td>twitter:image →無ければ og:image</td><td>横長 1.91:1</td><td class="grp">α</td><td class="rem">card=summary_large_image</td></tr><tr><td style="text-align:left">X / Twitter(summaryにした場合)</td><td>twitter:image</td><td>正方形 1:1</td><td class="grp">β(任意)</td><td class="rem">Xだけ出し分け可能な唯一の枠</td></tr><tr><td style="text-align:left">Pinterest</td><td>og:image</td><td>縦長 2:3 推奨</td><td class="grp">(対象外)</td><td class="rem">縦長を好むが企業サイトは通常無視可</td></tr>
+</table>
+
+
+<h2>正方形クロップ耐性α(4文字を中央630四方に収めて左右へ拡張)</h2>
+<p class="lead">1200×630のまま、4文字1行を<b>中央630×630の内側</b>に印字し左右を余白拡張。
+これで<b>横長でも正方クロップでも同じ1枚(α)で全4文字が残る</b>——出し分け不要でLINE等もカバー。
+左=最終1200×630(<span class="k">赤破線</span>=クロップ枠630)、右=クロップ結果630×630。
+代償: 横長カードでロゴが小さくなる(現行版4は横幅60%)。マージンを詰めるほど横長でも大きくできる。</p>
+<table>
+<tr><th class="rowh">案</th><th class="colh">最終 1200×630</th><th class="colh">正方形クロップ 630×630</th></tr>
+<tr><th class="rowh">マージン7%(ゆったり)<br><span class="asp">ロゴ 542×110<br>横幅の45%</span></th><td><div class="cellwrap"><svg class="cell" viewBox="0 0 1200 630" width="380" height="199.5" style="background:#0b1020"><use href="#lockup-4" x="329" y="260" width="542" height="110" fill="#ffffff"/><rect x="285" y="0" width="630" height="630" fill="none" stroke="#ff5470" stroke-width="5" stroke-dasharray="16 10"/></svg></div></td><td><div class="cellwrap"><svg class="cell" viewBox="285 0 630 630" width="190" height="190" style="background:#0b1020"><use href="#lockup-4" x="329" y="260" width="542" height="110" fill="#ffffff"/></svg></div></td></tr><tr><th class="rowh">マージン3%(ギリギリ・横長で大きい)<br><span class="asp">ロゴ 592×120<br>横幅の49%</span></th><td><div class="cellwrap"><svg class="cell" viewBox="0 0 1200 630" width="380" height="199.5" style="background:#0b1020"><use href="#lockup-4" x="304" y="255" width="592" height="120" fill="#ffffff"/><rect x="285" y="0" width="630" height="630" fill="none" stroke="#ff5470" stroke-width="5" stroke-dasharray="16 10"/></svg></div></td><td><div class="cellwrap"><svg class="cell" viewBox="285 0 630 630" width="190" height="190" style="background:#0b1020"><use href="#lockup-4" x="304" y="255" width="592" height="120" fill="#ffffff"/></svg></div></td></tr>
+</table>
+
+<h2>3版 × 発生しうる全サイズ(実寸/クロップ可視化)</h2>
+<p class="lead">各版を各フォーマットへ contain 配置。横長OGP列の<span class="k">赤破線</span>=正方クロップで残る中央1:1領域(外側は切れる)。favicon列は実寸。</p>
+<table>
+<tr><th class="rowh">版 \ 形式</th><th class="colh">OGP 横長 1200×630<br><span class="note">FB / X(large) / LinkedIn / Slack / Discord。1.91:1</span></th><th class="colh">正方形 1200×1200<br><span class="note">X summary小 / LINE等の正方クロップ。1:1</span></th><th class="colh">apple-touch 180<br><span class="note">iOSホーム。1:1</span></th><th class="colh">PWA 192<br><span class="note">Android/PWA。1:1</span></th><th class="colh">PWA 512<br><span class="note">PWA高解像。1:1</span></th><th class="colh">favicon 48<br><span class="note">タブ最大。実寸</span></th><th class="colh">favicon 32<br><span class="note">タブ標準。実寸</span></th><th class="colh">favicon 16<br><span class="note">タブ最小。実寸</span></th></tr>
+<tr><th class="rowh"><b>版1</b><br>ヨ 1文字<br><span class="asp">158×146<br>≒1.08:1</span></th><td><div class="cellwrap"><svg class="cell" viewBox="0 0 1200 630" width="360" height="189" style="background:#0b1020"><use href="#lockup-1" x="132" y="69" width="936" height="492" fill="#ffffff"/><rect x="285.0" y="0" width="630" height="630" fill="none" stroke="#ff5470" stroke-width="6" stroke-dasharray="18 12"/></svg></div></td><td><div class="cellwrap"><svg class="cell" viewBox="0 0 1200 1200" width="190" height="190" style="background:#0b1020"><use href="#lockup-1" x="144" y="144" width="912" height="912" fill="#ffffff"/></svg></div></td><td><div class="cellwrap"><svg class="cell" viewBox="0 0 180 180" width="150" height="150" style="background:#0b1020"><use href="#lockup-1" x="22" y="22" width="136" height="136" fill="#ffffff"/></svg></div></td><td><div class="cellwrap"><svg class="cell" viewBox="0 0 192 192" width="150" height="150" style="background:#0b1020"><use href="#lockup-1" x="23" y="23" width="146" height="146" fill="#ffffff"/></svg></div></td><td><div class="cellwrap"><svg class="cell" viewBox="0 0 512 512" width="170" height="170" style="background:#0b1020"><use href="#lockup-1" x="61" y="61" width="390" height="390" fill="#ffffff"/></svg></div></td><td><div class="cellwrap"><svg class="cell" viewBox="0 0 48 48" width="48" height="48" style="background:#0b1020"><use href="#lockup-1" x="4" y="4" width="40" height="40" fill="#ffffff"/></svg></div></td><td><div class="cellwrap"><svg class="cell" viewBox="0 0 32 32" width="32" height="32" style="background:#0b1020"><use href="#lockup-1" x="2" y="2" width="28" height="28" fill="#ffffff"/></svg></div></td><td><div class="cellwrap"><svg class="cell" viewBox="0 0 16 16" width="16" height="16" style="background:#0b1020"><use href="#lockup-1" x="1" y="1" width="14" height="14" fill="#ffffff"/></svg></div></td></tr><tr><th class="rowh"><b>版2</b><br>ヨリ／ツキ 2行<br><span class="asp">357×336<br>≒1.06:1</span></th><td><div class="cellwrap"><svg class="cell" viewBox="0 0 1200 630" width="360" height="189" style="background:#0b1020"><use href="#lockup-2" x="132" y="69" width="936" height="492" fill="#ffffff"/><rect x="285.0" y="0" width="630" height="630" fill="none" stroke="#ff5470" stroke-width="6" stroke-dasharray="18 12"/></svg></div></td><td><div class="cellwrap"><svg class="cell" viewBox="0 0 1200 1200" width="190" height="190" style="background:#0b1020"><use href="#lockup-2" x="144" y="144" width="912" height="912" fill="#ffffff"/></svg></div></td><td><div class="cellwrap"><svg class="cell" viewBox="0 0 180 180" width="150" height="150" style="background:#0b1020"><use href="#lockup-2" x="22" y="22" width="136" height="136" fill="#ffffff"/></svg></div></td><td><div class="cellwrap"><svg class="cell" viewBox="0 0 192 192" width="150" height="150" style="background:#0b1020"><use href="#lockup-2" x="23" y="23" width="146" height="146" fill="#ffffff"/></svg></div></td><td><div class="cellwrap"><svg class="cell" viewBox="0 0 512 512" width="170" height="170" style="background:#0b1020"><use href="#lockup-2" x="61" y="61" width="390" height="390" fill="#ffffff"/></svg></div></td><td><div class="cellwrap"><svg class="cell" viewBox="0 0 48 48" width="48" height="48" style="background:#0b1020"><use href="#lockup-2" x="4" y="4" width="40" height="40" fill="#ffffff"/></svg></div></td><td><div class="cellwrap"><svg class="cell" viewBox="0 0 32 32" width="32" height="32" style="background:#0b1020"><use href="#lockup-2" x="2" y="2" width="28" height="28" fill="#ffffff"/></svg></div></td><td><div class="cellwrap"><svg class="cell" viewBox="0 0 16 16" width="16" height="16" style="background:#0b1020"><use href="#lockup-2" x="1" y="1" width="14" height="14" fill="#ffffff"/></svg></div></td></tr><tr><th class="rowh"><b>版4</b><br>ヨリツキ 4文字<br><span class="asp">720×146<br>≒4.93:1</span></th><td><div class="cellwrap"><svg class="cell" viewBox="0 0 1200 630" width="360" height="189" style="background:#0b1020"><use href="#lockup-4" x="132" y="69" width="936" height="492" fill="#ffffff"/><rect x="285.0" y="0" width="630" height="630" fill="none" stroke="#ff5470" stroke-width="6" stroke-dasharray="18 12"/></svg></div></td><td><div class="cellwrap"><svg class="cell" viewBox="0 0 1200 1200" width="190" height="190" style="background:#0b1020"><use href="#lockup-4" x="144" y="144" width="912" height="912" fill="#ffffff"/></svg></div></td><td><div class="cellwrap"><svg class="cell" viewBox="0 0 180 180" width="150" height="150" style="background:#0b1020"><use href="#lockup-4" x="22" y="22" width="136" height="136" fill="#ffffff"/></svg></div></td><td><div class="cellwrap"><svg class="cell" viewBox="0 0 192 192" width="150" height="150" style="background:#0b1020"><use href="#lockup-4" x="23" y="23" width="146" height="146" fill="#ffffff"/></svg></div></td><td><div class="cellwrap"><svg class="cell" viewBox="0 0 512 512" width="170" height="170" style="background:#0b1020"><use href="#lockup-4" x="61" y="61" width="390" height="390" fill="#ffffff"/></svg></div></td><td><div class="cellwrap"><svg class="cell" viewBox="0 0 48 48" width="48" height="48" style="background:#0b1020"><use href="#lockup-4" x="4" y="4" width="40" height="40" fill="#ffffff"/></svg></div></td><td><div class="cellwrap"><svg class="cell" viewBox="0 0 32 32" width="32" height="32" style="background:#0b1020"><use href="#lockup-4" x="2" y="2" width="28" height="28" fill="#ffffff"/></svg></div></td><td><div class="cellwrap"><svg class="cell" viewBox="0 0 16 16" width="16" height="16" style="background:#0b1020"><use href="#lockup-4" x="1" y="1" width="14" height="14" fill="#ffffff"/></svg></div></td></tr>
+</table>
+
+<div class="box">
+<h3>採用方針(確定)</h3>
+<ul>
+<li><code>og:image</code> / <code>twitter:image</code> = <b>版4を中央630四方に3%配置</b>(board-og)。横長でも正方クロップでも全4文字が残るので1枚で全員に対応。</li>
+<li>apple-touch / PWA192・512 / favicon-32 / .ico(32,48) = <b>版2(2行)</b>。</li>
+<li>favicon-16 = <b>版1(ヨ1文字)</b>。極小のみ可読性優先。</li>
+<li>全て <code>brand/yoritsuki-logo.svg</code> から <code>brand/generate-assets.mjs</code> で機械生成。ドット単位の手作業は行わない。</li>
+</ul>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+    <!-- ▼ グリフ(高さ146・ローカル座標) -->
+    <!-- ヨ: 字送り158px。縦バー≈38・横バー≈29。接続部は重ねて継ぎ目を消す。 -->
+    <g id="g-yo">
+    <rect x="117" y="0" width="41" height="145"/>
+    <rect x="0" y="0" width="158" height="29"/>
+    <rect x="1" y="59" width="157" height="28"/>
+    <rect x="0" y="117" width="158" height="28"/>
+    </g>
+    <!-- リ: 字送り139px。縦バー≈38・横バー≈29。接続部は重ねて継ぎ目を消す。 -->
+    <g id="g-ri">
+    <rect x="101" y="0" width="38" height="146"/>
+    <rect x="0" y="0" width="38" height="85"/>
+    <rect x="52" y="117" width="87" height="29"/>
+    </g>
+    <!-- ツ: 字送り150px。縦バー≈38・横バー≈29。接続部は重ねて継ぎ目を消す。 -->
+    <g id="g-tsu">
+    <rect x="112" y="0" width="38" height="146"/>
+    <rect x="0" y="0" width="35" height="75"/>
+    <rect x="56" y="0" width="34" height="75"/>
+    <rect x="13" y="117" width="137" height="29"/>
+    </g>
+    <!-- キ: 字送り162px。縦バー≈38・横バー≈29。接続部は重ねて継ぎ目を消す。 -->
+    <g id="g-ki">
+    <rect x="62" y="0" width="40" height="146"/>
+    <rect x="1" y="14" width="161" height="29"/>
+    <rect x="0" y="85" width="162" height="30"/>
+    </g>
+
+    <!-- ▼ 版1: ヨ1文字(ほぼ正方形) -->
+    <symbol id="lockup-1" viewBox="0 0 158 146"><use href="#g-yo"/></symbol>
+
+    <!-- ▼ 版2: ヨリ/ツキ 2行(行間44px・約1.06:1) -->
+    <symbol id="lockup-2" viewBox="0 0 357 336">
+      <use href="#g-yo" transform="translate(0.0 0)"/>
+      <use href="#g-ri" transform="translate(206.5 0)"/>
+      <use href="#g-tsu" transform="translate(4.0 190)"/>
+      <use href="#g-ki" transform="translate(195.0 190)"/>
+    </symbol>
+
+    <!-- ▼ 版4: ヨリツキ 4文字1行(約4.93:1・現行ogp.pngと同一字形) -->
+    <symbol id="lockup-4" viewBox="0 0 720 146">
+      <use href="#g-yo" transform="translate(0 0)"/>
+      <use href="#g-ri" transform="translate(195 0)"/>
+      <use href="#g-tsu" transform="translate(371 0)"/>
+      <use href="#g-ki" transform="translate(558 0)"/>
+    </symbol>
+
+    <!-- ▼ board-og: 本番横長OGP(1200×630)。版4を中央630四方へ3%マージンで配置。
+         正方形クロップされても全4文字が残る。og:image / twitter:image はこれを使う。 -->
+    <symbol id="board-og" viewBox="0 0 1200 630">
+      <rect width="1200" height="630" fill="#0b1020"/>
+      <use href="#lockup-4" x="304" y="255" width="592" height="120"/>
+    </symbol>
+  </defs></svg>
+</div>

@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160"><rect width="160" height="160" fill="#0b1020"/><defs>
+    <!-- ▼ グリフ(高さ146・ローカル座標) -->
+    <!-- ヨ: 字送り158px。縦バー≈38・横バー≈29。接続部は重ねて継ぎ目を消す。 -->
+    <g id="g-yo">
+    <rect x="117" y="0" width="41" height="145"/>
+    <rect x="0" y="0" width="158" height="29"/>
+    <rect x="1" y="59" width="157" height="28"/>
+    <rect x="0" y="117" width="158" height="28"/>
+    </g>
+    <!-- リ: 字送り139px。縦バー≈38・横バー≈29。接続部は重ねて継ぎ目を消す。 -->
+    <g id="g-ri">
+    <rect x="101" y="0" width="38" height="146"/>
+    <rect x="0" y="0" width="38" height="85"/>
+    <rect x="52" y="117" width="87" height="29"/>
+    </g>
+    <!-- ツ: 字送り150px。縦バー≈38・横バー≈29。接続部は重ねて継ぎ目を消す。 -->
+    <g id="g-tsu">
+    <rect x="112" y="0" width="38" height="146"/>
+    <rect x="0" y="0" width="35" height="75"/>
+    <rect x="56" y="0" width="34" height="75"/>
+    <rect x="13" y="117" width="137" height="29"/>
+    </g>
+    <!-- キ: 字送り162px。縦バー≈38・横バー≈29。接続部は重ねて継ぎ目を消す。 -->
+    <g id="g-ki">
+    <rect x="62" y="0" width="40" height="146"/>
+    <rect x="1" y="14" width="161" height="29"/>
+    <rect x="0" y="85" width="162" height="30"/>
+    </g>
+
+    <!-- ▼ 版1: ヨ1文字(ほぼ正方形) -->
+    <symbol id="lockup-1" viewBox="0 0 158 146"><use href="#g-yo"/></symbol>
+
+    <!-- ▼ 版2: ヨリ/ツキ 2行(行間44px・約1.06:1) -->
+    <symbol id="lockup-2" viewBox="0 0 357 336">
+      <use href="#g-yo" transform="translate(0.0 0)"/>
+      <use href="#g-ri" transform="translate(206.5 0)"/>
+      <use href="#g-tsu" transform="translate(4.0 190)"/>
+      <use href="#g-ki" transform="translate(195.0 190)"/>
+    </symbol>
+
+    <!-- ▼ 版4: ヨリツキ 4文字1行(約4.93:1・現行ogp.pngと同一字形) -->
+    <symbol id="lockup-4" viewBox="0 0 720 146">
+      <use href="#g-yo" transform="translate(0 0)"/>
+      <use href="#g-ri" transform="translate(195 0)"/>
+      <use href="#g-tsu" transform="translate(371 0)"/>
+      <use href="#g-ki" transform="translate(558 0)"/>
+    </symbol>
+
+    <!-- ▼ board-og: 本番横長OGP(1200×630)。版4を中央630四方へ3%マージンで配置。
+         正方形クロップされても全4文字が残る。og:image / twitter:image はこれを使う。 -->
+    <symbol id="board-og" viewBox="0 0 1200 630">
+      <rect width="1200" height="630" fill="#0b1020"/>
+      <use href="#lockup-4" x="304" y="255" width="592" height="120"/>
+    </symbol>
+  </defs><use href="#lockup-1" x="19" y="19" width="122" height="122" fill="#ffffff"/></svg>

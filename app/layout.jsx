@@ -13,6 +13,8 @@ export const metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: '/' },
+  applicationName: '株式会社ヨリツキ',
+  appleWebApp: { capable: true, title: 'ヨリツキ', statusBarStyle: 'black-translucent' },
   // モバイルOSによる住所・電話・メールの自動リンクを抑止（住所はJSXで明示リンクのみ）
   formatDetection: { telephone: false, date: false, address: false, email: false },
   openGraph: {
@@ -32,7 +34,9 @@ export const metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: '48x48' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon-96.png', type: 'image/png', sizes: '96x96' },
       { url: '/favicon-32.png', type: 'image/png', sizes: '32x32' },
       { url: '/favicon-16.png', type: 'image/png', sizes: '16x16' },
     ],

@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="#ffffff">
+<!--
+  ============================================================================
+  株式会社ヨリツキ  ロゴマーク 正本 (CANONICAL SOURCE OF TRUTH)
+  ============================================================================
+  この1ファイルが全画像(OGP / favicon / apple-touch-icon / PWAアイコン等)の生成元。
+  実サイトが直接読み込まなくても、派生画像は必ずここから起こすこと。
+
+  ▍来歴 / 検証
+    - 旧 public/ogp.png(ラスタ)を1px解析し、純粋な「軸並行の長方形の集合」であること
+      を確認して復元(斜め・曲線なし)。原画へ重ねてピクセル差分:
+        IoU 0.992 / 2×2以上の連続ズレ矩形 0 / 3×3 0(ズレは全て幅1pxのAA縁のみ)。
+
+  ▍字形の設計原則
+    - 曲線なし・斜めなし。縦長/横長の長方形バーのみ。字高=146px。
+    - 縦バー≈38px太 / 横バー≈29px太(縦を太く)。
+    - 交差・接続部はバーを「重ねて」描く(突き合わせだと1pxの継ぎ目が出る)。
+
+  ▍レイアウト定数: 字送り ヨ=158 リ=139 ツ=150 キ=162 /
+                   字間=37px / 行間(2行組)=44px  ※行間は詰め版
+
+  ▍3つの版(用途別)
+    - #lockup-1  「ヨ」1文字      158×146 ≒1.08:1  → 正方形アイコン/favicon
+    - #lockup-2  「ヨリ／ツキ」2行 357×336 ≒1.06:1        → 正方形にクロップされるOGP/アイコン
+    - #lockup-4  「ヨリツキ」4文字 720×146 ≒4.93:1      → 横長OGP(1200×630)
+    ※4文字版は極端な横長。正方形クロップでは両端が必ず欠けるので、正方形用途は版1か版2。
+
+  ▍実装メモ: グリフは <g>(自然座標)。<use transform="translate(x y)"> で配置。
+    版(lockup)は <symbol>(viewBox付き)。生成器は <use href="#lockup-N" width=.. height=..>
+    で目的サイズへ contain 配置し、背景 #0b1020 を敷く。
+  ============================================================================
+-->
+  <defs>
+    <!-- ▼ グリフ(高さ146・ローカル座標) -->
+    <!-- ヨ: 字送り158px。縦バー≈38・横バー≈29。接続部は重ねて継ぎ目を消す。 -->
+    <g id="g-yo">
+    <rect x="117" y="0" width="41" height="145"/>
+    <rect x="0" y="0" width="158" height="29"/>
+    <rect x="1" y="59" width="157" height="28"/>
+    <rect x="0" y="117" width="158" height="28"/>
+    </g>
+    <!-- リ: 字送り139px。縦バー≈38・横バー≈29。接続部は重ねて継ぎ目を消す。 -->
+    <g id="g-ri">
+    <rect x="101" y="0" width="38" height="146"/>
+    <rect x="0" y="0" width="38" height="85"/>
+    <rect x="52" y="117" width="87" height="29"/>
+    </g>
+    <!-- ツ: 字送り150px。縦バー≈38・横バー≈29。接続部は重ねて継ぎ目を消す。 -->
+    <g id="g-tsu">
+    <rect x="112" y="0" width="38" height="146"/>
+    <rect x="0" y="0" width="35" height="75"/>
+    <rect x="56" y="0" width="34" height="75"/>
+    <rect x="13" y="117" width="137" height="29"/>
+    </g>
+    <!-- キ: 字送り162px。縦バー≈38・横バー≈29。接続部は重ねて継ぎ目を消す。 -->
+    <g id="g-ki">
+    <rect x="62" y="0" width="40" height="146"/>
+    <rect x="1" y="14" width="161" height="29"/>
+    <rect x="0" y="85" width="162" height="30"/>
+    </g>
+
+    <!-- ▼ 版1: ヨ1文字(ほぼ正方形) -->
+    <symbol id="lockup-1" viewBox="0 0 158 146"><use href="#g-yo"/></symbol>
+
+    <!-- ▼ 版2: ヨリ/ツキ 2行(行間44px・約1.06:1) -->
+    <symbol id="lockup-2" viewBox="0 0 357 336">
+      <use href="#g-yo" transform="translate(0.0 0)"/>
+      <use href="#g-ri" transform="translate(206.5 0)"/>
+      <use href="#g-tsu" transform="translate(4.0 190)"/>
+      <use href="#g-ki" transform="translate(195.0 190)"/>
+    </symbol>
+
+    <!-- ▼ 版4: ヨリツキ 4文字1行(約4.93:1・現行ogp.pngと同一字形) -->
+    <symbol id="lockup-4" viewBox="0 0 720 146">
+      <use href="#g-yo" transform="translate(0 0)"/>
+      <use href="#g-ri" transform="translate(195 0)"/>
+      <use href="#g-tsu" transform="translate(371 0)"/>
+      <use href="#g-ki" transform="translate(558 0)"/>
+    </symbol>
+
+    <!-- ▼ board-og: 本番横長OGP(1200×630)。版4を中央630四方へ3%マージンで配置。
+         正方形クロップされても全4文字が残る。og:image / twitter:image はこれを使う。 -->
+    <symbol id="board-og" viewBox="0 0 1200 630">
+      <rect width="1200" height="630" fill="#0b1020"/>
+      <use href="#lockup-4" x="304" y="255" width="592" height="120"/>
+    </symbol>
+  </defs>
+
+  <!-- 既定表示=board-og(本番の横長OGPそのもの)。
+       生成器の用途割当:
+         og:image / twitter:image → board-og(横長1200×630)
+         apple-touch / PWA192・512 / favicon-32 / .ico(32,48) → lockup-2(2行)
+         favicon-16 → lockup-1(ヨ1文字。極小のみ可読性優先)
+       ※全てこの正本SVGから機械生成。ドット単位の手作業は一切行わない。 -->
+  <use href="#board-og" width="1200" height="630"/>
+</svg>
