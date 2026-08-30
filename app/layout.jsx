@@ -6,7 +6,7 @@ import { SITE_URL } from '../lib/site';
 
 const TITLE = '株式会社ヨリツキ | Yoritsuki, Inc.';
 const DESCRIPTION =
-  '株式会社ヨリツキは、Webサービス・モバイルアプリ・業務システムの企画・設計・開発・クラウド基盤・運用までを、AIを駆使して一貫して担うソフトウェアエンジニアリング会社です。';
+  '株式会社ヨリツキは、Web・アプリ・業務システムの企画から運用まで一気通貫で手がける開発会社です。';
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
