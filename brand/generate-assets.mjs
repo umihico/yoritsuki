@@ -5,9 +5,9 @@
 //
 //  用途割当(正本SVGのコメントと一致):
 //    og:image / twitter:image        → #board-og (横長1200×630, 4文字を中央630四方に3%で配置)
-//    apple-touch / PWA192・512 / fav32 → #lockup-2 (ヨリ/ツキ 2行)
-//    favicon-16                       → #lockup-1 (ヨ 1文字。極小のみ可読性優先)
-//    favicon.ico                      → 16=ヨ / 32=2行 / 48=2行 のマルチサイズ
+//    apple-touch / PWA192・512 / fav96 → #lockup-2 (ヨリ/ツキ 2行)
+//    favicon-16 / favicon-32          → #lockup-1 (ヨ 1文字。タブ極小で2行は潰れるため)
+//    favicon.ico                      → 16=ヨ / 32=ヨ / 48=2行 のマルチサイズ
 //
 //  使い方:  node brand/generate-assets.mjs
 //  依存:    sharp
@@ -76,15 +76,15 @@ async function main() {
   await renderSquare('lockup-2', 192, 0.10).toFile(join(OUT, 'icon-192.png'));
   await renderSquare('lockup-2', 512, 0.10).toFile(join(OUT, 'icon-512.png'));
   await renderSquare('lockup-2', 96, 0.10).toFile(join(OUT, 'favicon-96.png'));
-  await renderSquare('lockup-2', 32, 0.06).toFile(join(OUT, 'favicon-32.png'));
 
-  // 3) favicon-16 = ヨ 1文字 / スケーラブル SVG favicon(= ヨ)
+  // 3) 極小(16・32) = ヨ 1文字(タブ表示で2行は潰れるため) / スケーラブル SVG favicon(= ヨ)
+  await renderSquare('lockup-1', 32, 0.06).toFile(join(OUT, 'favicon-32.png'));
   await renderSquare('lockup-1', 16, 0.06).toFile(join(OUT, 'favicon-16.png'));
   writeFileSync(join(OUT, 'favicon.svg'), faviconSvgText());
 
-  // 4) favicon.ico = 16(ヨ) / 32(2行) / 48(2行)
+  // 4) favicon.ico = 16(ヨ) / 32(ヨ) / 48(2行)
   const ico16 = await renderSquare('lockup-1', 16, 0.06).toBuffer();
-  const ico32 = await renderSquare('lockup-2', 32, 0.06).toBuffer();
+  const ico32 = await renderSquare('lockup-1', 32, 0.06).toBuffer();
   const ico48 = await renderSquare('lockup-2', 48, 0.08).toBuffer();
   writeFileSync(join(OUT, 'favicon.ico'), buildIco([
     { size: 16, png: ico16 }, { size: 32, png: ico32 }, { size: 48, png: ico48 },
