@@ -36,10 +36,13 @@ function squareSvg(lockupId, size, padFrac) {
 const renderSquare = (lockupId, size, padFrac = 0.10) =>
   sharp(Buffer.from(squareSvg(lockupId, size, padFrac))).png();
 
+// 全アセット共通の余白比率(グリフを大きめマージンで配置。用途ごとにバラつかせない)。
+const PAD = 0.18;
+
 // スケーラブルな SVG favicon(タブ表示は極小のため中身は #lockup-1 = ヨ 1文字。
 // 対応ブラウザは ICO/PNG より SVG を優先するので、タブは常に「ヨ」で判読性を確保)。
 function faviconSvgText() {
-  const S = 160, p = Math.round(S * 0.12), u = S - 2 * p;
+  const S = 160, p = Math.round(S * PAD), u = S - 2 * p;
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${S} ${S}" width="${S}" height="${S}">`
     + `<rect width="${S}" height="${S}" fill="${BG}"/>${defs}`
     + `<use href="#lockup-1" x="${p}" y="${p}" width="${u}" height="${u}" fill="#ffffff"/></svg>\n`;
@@ -71,21 +74,22 @@ async function main() {
   // 1) 横長OGP: 正本の既定表示(#board-og)そのまま = 1200×630
   await sharp(Buffer.from(master)).png().toFile(join(OUT, 'ogp.png'));
 
-  // 2) 正方系アイコン = 2行
-  await renderSquare('lockup-2', 180, 0.10).toFile(join(OUT, 'apple-touch-icon.png'));
-  await renderSquare('lockup-2', 192, 0.10).toFile(join(OUT, 'icon-192.png'));
-  await renderSquare('lockup-2', 512, 0.10).toFile(join(OUT, 'icon-512.png'));
-  await renderSquare('lockup-2', 96, 0.10).toFile(join(OUT, 'favicon-96.png'));
+  // 2) 正方系アイコン = 2行(余白は極小系と同じ PAD に統一)
+  await renderSquare('lockup-2', 180, PAD).toFile(join(OUT, 'apple-touch-icon.png'));
+  await renderSquare('lockup-2', 192, PAD).toFile(join(OUT, 'icon-192.png'));
+  await renderSquare('lockup-2', 512, PAD).toFile(join(OUT, 'icon-512.png'));
+  await renderSquare('lockup-2', 96, PAD).toFile(join(OUT, 'favicon-96.png'));
 
   // 3) 極小(16・32) = ヨ 1文字(タブ表示で2行は潰れるため) / スケーラブル SVG favicon(= ヨ)
-  await renderSquare('lockup-1', 32, 0.06).toFile(join(OUT, 'favicon-32.png'));
-  await renderSquare('lockup-1', 16, 0.06).toFile(join(OUT, 'favicon-16.png'));
+  //    余白は SVG favicon と同じ PAD に統一(ドット等倍でマージンが詰まって見えるのを解消)。
+  await renderSquare('lockup-1', 32, PAD).toFile(join(OUT, 'favicon-32.png'));
+  await renderSquare('lockup-1', 16, PAD).toFile(join(OUT, 'favicon-16.png'));
   writeFileSync(join(OUT, 'favicon.svg'), faviconSvgText());
 
   // 4) favicon.ico = 16(ヨ) / 32(ヨ) / 48(2行)
-  const ico16 = await renderSquare('lockup-1', 16, 0.06).toBuffer();
-  const ico32 = await renderSquare('lockup-1', 32, 0.06).toBuffer();
-  const ico48 = await renderSquare('lockup-2', 48, 0.08).toBuffer();
+  const ico16 = await renderSquare('lockup-1', 16, PAD).toBuffer();
+  const ico32 = await renderSquare('lockup-1', 32, PAD).toBuffer();
+  const ico48 = await renderSquare('lockup-2', 48, PAD).toBuffer();
   writeFileSync(join(OUT, 'favicon.ico'), buildIco([
     { size: 16, png: ico16 }, { size: 32, png: ico32 }, { size: 48, png: ico48 },
   ]));

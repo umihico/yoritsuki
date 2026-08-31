@@ -14,7 +14,7 @@ export const metadata = {
   description: DESCRIPTION,
   alternates: { canonical: '/' },
   applicationName: '株式会社ヨリツキ',
-  appleWebApp: { capable: true, title: 'ヨリツキ', statusBarStyle: 'black-translucent' },
+  appleWebApp: { capable: true, title: '株式会社ヨリツキ', statusBarStyle: 'black-translucent' },
   // モバイルOSによる住所・電話・メールの自動リンクを抑止（住所はJSXで明示リンクのみ）
   formatDetection: { telephone: false, date: false, address: false, email: false },
   openGraph: {
