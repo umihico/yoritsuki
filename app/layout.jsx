@@ -3,26 +3,26 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import RevealInit from '../components/RevealInit';
 import { SITE_URL } from '../lib/site';
+import { COMPANY, TITLE_DEFAULT } from '../lib/company';
 
-const TITLE = '株式会社ヨリツキ | Yoritsuki, Inc.';
-const DESCRIPTION =
-  '株式会社ヨリツキは、Web・アプリ・業務システムの企画から運用まで一気通貫で手がける開発会社です。';
+const TITLE = TITLE_DEFAULT;
+const DESCRIPTION = COMPANY.description;
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: '/' },
-  applicationName: '株式会社ヨリツキ',
-  appleWebApp: { capable: true, title: '株式会社ヨリツキ', statusBarStyle: 'black-translucent' },
+  applicationName: COMPANY.name.ja,
+  appleWebApp: { capable: true, title: COMPANY.name.ja, statusBarStyle: 'black-translucent' },
   // モバイルOSによる住所・電話・メールの自動リンクを抑止（住所はJSXで明示リンクのみ）
   formatDetection: { telephone: false, date: false, address: false, email: false },
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
     url: '/',
-    siteName: '株式会社ヨリツキ',
-    images: [{ url: '/ogp.png', width: 1200, height: 630, alt: 'ヨリツキ' }],
+    siteName: COMPANY.name.ja,
+    images: [{ url: '/ogp.png', width: 1200, height: 630, alt: COMPANY.shortName }],
     locale: 'ja_JP',
     type: 'website',
   },
@@ -53,19 +53,19 @@ export const viewport = {
 const ORG_JSONLD = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: '株式会社ヨリツキ',
-  alternateName: 'Yoritsuki, Inc.',
+  name: COMPANY.name.ja,
+  alternateName: COMPANY.name.en,
   url: `${SITE_URL}/`,
   logo: `${SITE_URL}/icon-512.png`,
-  foundingDate: '2026-08',
-  founder: { '@type': 'Person', name: '岩佐 海彦', alternateName: 'Umihiko Iwasa' },
+  foundingDate: COMPANY.founding.date,
+  founder: { '@type': 'Person', name: COMPANY.founder.ja, alternateName: COMPANY.founder.en },
   address: {
     '@type': 'PostalAddress',
-    postalCode: '107-0061',
-    addressRegion: '東京都',
-    addressLocality: '港区',
-    streetAddress: '北青山1-3-1 アールキューブ青山3F',
-    addressCountry: 'JP',
+    postalCode: COMPANY.address.postalCode,
+    addressRegion: COMPANY.address.region,
+    addressLocality: COMPANY.address.locality,
+    streetAddress: COMPANY.address.street,
+    addressCountry: COMPANY.address.country,
   },
 };
 

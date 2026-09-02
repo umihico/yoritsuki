@@ -1,12 +1,13 @@
+import { COMPANY } from '../lib/company';
+
 export const dynamic = 'force-static';
 
 // PWA/ホーム画面用マニフェスト。アイコンは brand/yoritsuki-logo.svg から生成した2行版。
 export default function manifest() {
   return {
-    name: '株式会社ヨリツキ',
-    short_name: 'ヨリツキ',
-    description:
-      '株式会社ヨリツキは、Webサービス・モバイルアプリ・業務システムを、AIを駆使して一貫して担うソフトウェアエンジニアリング会社です。',
+    name: COMPANY.name.ja,
+    short_name: COMPANY.shortName,
+    description: COMPANY.description,
     start_url: '/',
     display: 'standalone',
     background_color: '#0b1020',

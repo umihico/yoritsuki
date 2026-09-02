@@ -1,8 +1,9 @@
 import NoticeCard from '../../components/NoticeCard';
 import SectionHead from '../../components/SectionHead';
+import { COMPANY } from '../../lib/company';
 
-const TITLE = '公告 | 株式会社ヨリツキ';
-const DESCRIPTION = '株式会社ヨリツキの電子公告ページです。';
+const TITLE = `公告 | ${COMPANY.name.ja}`;
+const DESCRIPTION = `${COMPANY.name.ja}の電子公告ページです。`;
 
 export const metadata = {
   title: TITLE,
@@ -12,8 +13,8 @@ export const metadata = {
     title: TITLE,
     description: DESCRIPTION,
     url: '/publicnotice/',
-    siteName: '株式会社ヨリツキ',
-    images: [{ url: '/ogp.png', width: 1200, height: 630, alt: 'ヨリツキ' }],
+    siteName: COMPANY.name.ja,
+    images: [{ url: '/ogp.png', width: 1200, height: 630, alt: COMPANY.shortName }],
     locale: 'ja_JP',
     type: 'website',
   },
@@ -29,8 +30,8 @@ export default function PublicNoticePage() {
   return (
     <main
       className="notice-main"
-      data-title-ja="公告 | 株式会社ヨリツキ"
-      data-title-en="Public Notice | Yoritsuki, Inc."
+      data-title-ja={TITLE}
+      data-title-en={`Public Notice | ${COMPANY.name.en}`}
     >
       <div className="wrap">
         <SectionHead ja="公告" en="Public Notice" />
